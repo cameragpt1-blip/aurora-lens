@@ -388,20 +388,6 @@
             }
         }
 
-        @keyframes buttonSheen {
-            0% {
-                transform: translateX(-68%) scale(1.02);
-                opacity: 0;
-            }
-            42%, 58% {
-                opacity: 0.76;
-            }
-            100% {
-                transform: translateX(68%) scale(1.06);
-                opacity: 0;
-            }
-        }
-
         @keyframes buttonLaunch {
             0% {
                 transform: translateY(0) scale(1);
@@ -466,10 +452,7 @@
 
             .primary:hover::after {
                 opacity: 0.82;
-                background:
-                    linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.7) 40%, transparent 58%),
-                    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.6), transparent 46%);
-                animation: buttonSheen 1.8s ease-in-out infinite;
+                animation-duration: 2.6s;
             }
         }
 
