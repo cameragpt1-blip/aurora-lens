@@ -134,6 +134,13 @@
             font-size: 15px;
         }
 
+        .icon-btn svg {
+            width: 19px;
+            height: 19px;
+            display: block;
+            margin: 0 auto;
+        }
+
         .row {
             display: grid;
             grid-template-columns: 62px 1fr 42px;
@@ -463,7 +470,16 @@
 
     <div id="ui">
         <div class="top-controls">
-            <button id="switch-camera" class="icon-btn" title="切换镜头">↻</button>
+            <button id="switch-camera" class="icon-btn" title="切换镜头" aria-label="切换镜头">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 7.5h1.7l1.1-1.7h2.4l1.1 1.7H16a3 3 0 0 1 3 3v4.2a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-4.2a3 3 0 0 1 3-3Z"/>
+                    <circle cx="12" cy="12.6" r="2.35"/>
+                    <path d="M4.5 5.2 2.8 6.9l1.7 1.7"/>
+                    <path d="M2.9 6.9h3.4"/>
+                    <path d="m19.5 18.8 1.7-1.7-1.7-1.7"/>
+                    <path d="M21.1 17.1h-3.4"/>
+                </svg>
+            </button>
             <button id="toggle-ui">收起</button>
         </div>
 
@@ -744,10 +760,10 @@ const App = {
 
         document.getElementById("randomize").addEventListener("click", (event) => {
             event.stopPropagation();
-            this.setSlider("intensity", 1.4 + Math.random() * 2.6);
-            this.setSlider("radius", 0.55 + Math.random() * 1.75);
-            this.setSlider("decay", 0.94 + Math.random() * 0.052);
-            this.setSlider("color", Math.random() * 360);
+            this.setRandomSlider("intensity");
+            this.setRandomSlider("radius");
+            this.setRandomSlider("decay");
+            this.setRandomSlider("color");
         });
         document.getElementById("clear-field").addEventListener("click", (event) => {
             event.stopPropagation();
@@ -804,6 +820,33 @@ const App = {
         const input = document.getElementById(id);
         input.value = String(value);
         input.dispatchEvent(new Event("input", { bubbles: true }));
+    },
+
+    randomUnit() {
+        if (window.crypto && window.crypto.getRandomValues) {
+            const values = new Uint32Array(1);
+            window.crypto.getRandomValues(values);
+            return values[0] / 0x100000000;
+        }
+        return Math.random();
+    },
+
+    setRandomSlider(id) {
+        const input = document.getElementById(id);
+        const min = Number(input.min || 0);
+        const max = Number(input.max || 100);
+        const step = Number(input.step || 1);
+        const current = Number(input.value);
+        const steps = Math.max(1, Math.round((max - min) / step));
+        let index = Math.floor(this.randomUnit() * (steps + 1));
+        let value = min + index * step;
+
+        if (steps > 2 && Math.abs(value - current) < step * 2) {
+            index = (index + 2 + Math.floor(this.randomUnit() * (steps - 1))) % (steps + 1);
+            value = min + index * step;
+        }
+
+        this.setSlider(id, Math.min(max, Number(value.toFixed(6))));
     },
 
     async start() {
