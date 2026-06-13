@@ -308,7 +308,7 @@
         }
 
         .primary::before {
-            z-index: -1;
+            z-index: 0;
             background:
                 radial-gradient(circle at 50% 50%, rgba(95, 231, 255, 0.52), transparent 22%),
                 radial-gradient(circle at 50% 50%, rgba(184, 113, 255, 0.34), transparent 38%);
@@ -319,14 +319,20 @@
         }
 
         .primary::after {
+            z-index: 1;
             border: 1px solid rgba(255, 255, 255, 0.66);
             background:
-                linear-gradient(110deg, transparent 18%, rgba(255, 255, 255, 0.72) 36%, transparent 48%),
-                radial-gradient(circle at 50% 50%, transparent 30%, rgba(255, 255, 255, 0.42) 31%, transparent 34%);
-            opacity: 0.5;
-            transform: translateX(-52%) scale(1.02);
+                radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.66), transparent 46%),
+                radial-gradient(circle at 50% 58%, rgba(120, 229, 255, 0.22), transparent 58%);
+            opacity: 0.56;
+            transform: scale(1.02);
             mix-blend-mode: screen;
-            animation: buttonSheen 2.9s ease-in-out infinite;
+            animation: buttonGlassGlow 4.2s ease-in-out infinite;
+        }
+
+        .primary > span {
+            position: relative;
+            z-index: 2;
         }
 
         .primary.is-launching {
@@ -371,17 +377,28 @@
             }
         }
 
+        @keyframes buttonGlassGlow {
+            0%, 100% {
+                transform: translate3d(-3%, 0, 0) scale(1.02);
+                opacity: 0.42;
+            }
+            50% {
+                transform: translate3d(3%, 0, 0) scale(1.08);
+                opacity: 0.72;
+            }
+        }
+
         @keyframes buttonSheen {
             0% {
-                transform: translateX(-62%) scale(1.02);
-                opacity: 0.28;
+                transform: translateX(-68%) scale(1.02);
+                opacity: 0;
             }
-            45%, 55% {
-                opacity: 0.78;
+            42%, 58% {
+                opacity: 0.76;
             }
             100% {
-                transform: translateX(64%) scale(1.06);
-                opacity: 0.32;
+                transform: translateX(68%) scale(1.06);
+                opacity: 0;
             }
         }
 
@@ -417,15 +434,15 @@
 
         @keyframes buttonFlood {
             0% {
-                transform: translateX(-42%) scale(1);
+                transform: scale(0.72);
                 opacity: 0.75;
             }
             55% {
-                transform: translateX(0%) scale(1.8);
+                transform: scale(1.95);
                 opacity: 1;
             }
             100% {
-                transform: translateX(20%) scale(3.2);
+                transform: scale(4.1);
                 opacity: 0;
             }
         }
@@ -449,6 +466,10 @@
 
             .primary:hover::after {
                 opacity: 0.82;
+                background:
+                    linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.7) 40%, transparent 58%),
+                    radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.6), transparent 46%);
+                animation: buttonSheen 1.8s ease-in-out infinite;
             }
         }
 
@@ -547,13 +568,13 @@
     <div id="intro" class="overlay">
         <h1>有光经过</h1>
         <p class="sr-only">允许摄像头后，用手指触碰画面生成光的涟漪。</p>
-        <button id="start" class="primary">开始触碰</button>
+        <button id="start" class="primary"><span>开始触碰</span></button>
     </div>
 
     <div id="error" class="overlay hidden">
         <h1>摄像头不可用</h1>
         <p id="error-message">页面会继续运行，你仍然可以用鼠标或触摸拖动画面。</p>
-        <button id="continue" class="primary">继续体验</button>
+        <button id="continue" class="primary"><span>继续体验</span></button>
     </div>
 
 <script>
