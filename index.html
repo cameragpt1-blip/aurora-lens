@@ -161,20 +161,79 @@
         }
 
         #color {
-            height: 12px;
+            appearance: none;
+            -webkit-appearance: none;
+            height: 16px;
+            border-radius: 999px;
+            background: transparent;
+            accent-color: hsl(var(--hue, 205) 100% 62%);
+        }
+
+        #color::-webkit-slider-runnable-track {
+            height: 4px;
             border-radius: 999px;
             background: linear-gradient(
                 90deg,
-                hsl(0 100% 62%),
-                hsl(45 100% 60%),
-                hsl(90 100% 58%),
-                hsl(150 100% 54%),
-                hsl(210 100% 62%),
-                hsl(270 100% 68%),
-                hsl(330 100% 62%),
-                hsl(360 100% 62%)
+                hsl(0 100% 58%) 0%,
+                hsl(30 100% 58%) 8.33%,
+                hsl(60 100% 56%) 16.66%,
+                hsl(90 100% 54%) 25%,
+                hsl(120 100% 48%) 33.33%,
+                hsl(150 100% 48%) 41.66%,
+                hsl(180 100% 52%) 50%,
+                hsl(210 100% 58%) 58.33%,
+                hsl(240 100% 64%) 66.66%,
+                hsl(270 100% 66%) 75%,
+                hsl(300 100% 62%) 83.33%,
+                hsl(330 100% 58%) 91.66%,
+                hsl(360 100% 58%) 100%
             );
-            accent-color: hsl(205 100% 62%);
+        }
+
+        #color::-webkit-slider-thumb {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            margin-top: -6px;
+            border: 2px solid rgba(255, 255, 255, 0.94);
+            border-radius: 50%;
+            background: hsl(var(--hue, 205) 100% 58%);
+            box-shadow:
+                0 0 0 2px rgba(0, 0, 0, 0.14),
+                0 0 12px hsl(var(--hue, 205) 100% 62% / 0.58);
+        }
+
+        #color::-moz-range-track {
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(
+                90deg,
+                hsl(0 100% 58%) 0%,
+                hsl(30 100% 58%) 8.33%,
+                hsl(60 100% 56%) 16.66%,
+                hsl(90 100% 54%) 25%,
+                hsl(120 100% 48%) 33.33%,
+                hsl(150 100% 48%) 41.66%,
+                hsl(180 100% 52%) 50%,
+                hsl(210 100% 58%) 58.33%,
+                hsl(240 100% 64%) 66.66%,
+                hsl(270 100% 66%) 75%,
+                hsl(300 100% 62%) 83.33%,
+                hsl(330 100% 58%) 91.66%,
+                hsl(360 100% 58%) 100%
+            );
+        }
+
+        #color::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.94);
+            border-radius: 50%;
+            background: hsl(var(--hue, 205) 100% 58%);
+            box-shadow:
+                0 0 0 2px rgba(0, 0, 0, 0.14),
+                0 0 12px hsl(var(--hue, 205) 100% 62% / 0.58);
         }
 
         .overlay {
@@ -297,39 +356,6 @@
             animation: buttonFloat 5.2s ease-in-out infinite;
         }
 
-        .primary::before,
-        .primary::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            pointer-events: none;
-            transition: opacity 260ms ease, transform 420ms ease;
-        }
-
-        .primary::before {
-            z-index: 0;
-            background:
-                radial-gradient(circle at 50% 50%, rgba(95, 231, 255, 0.52), transparent 22%),
-                radial-gradient(circle at 50% 50%, rgba(184, 113, 255, 0.34), transparent 38%);
-            opacity: 0.45;
-            transform: scale(0.88);
-            filter: blur(3px);
-            animation: buttonPulse 3.8s ease-in-out infinite;
-        }
-
-        .primary::after {
-            z-index: 1;
-            border: 1px solid rgba(255, 255, 255, 0.66);
-            background:
-                radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.66), transparent 46%),
-                radial-gradient(circle at 50% 58%, rgba(120, 229, 255, 0.22), transparent 58%);
-            opacity: 0.56;
-            transform: scale(1.02);
-            mix-blend-mode: screen;
-            animation: buttonGlassGlow 4.2s ease-in-out infinite;
-        }
-
         .primary > span {
             position: relative;
             z-index: 2;
@@ -339,16 +365,6 @@
             color: rgba(0, 0, 0, 0.72);
             animation: buttonLaunch 900ms cubic-bezier(0.2, 0.72, 0.18, 1) forwards;
             pointer-events: none;
-        }
-
-        .primary.is-launching::before {
-            opacity: 1;
-            animation: buttonBurst 900ms cubic-bezier(0.2, 0.72, 0.18, 1) forwards;
-        }
-
-        .primary.is-launching::after {
-            opacity: 0.95;
-            animation: buttonFlood 900ms cubic-bezier(0.2, 0.72, 0.18, 1) forwards;
         }
 
         @keyframes buttonFloat {
@@ -363,28 +379,6 @@
                     inset 0 1px 0 rgba(255, 255, 255, 1),
                     inset 0 -12px 24px rgba(111, 197, 235, 0.25),
                     0 14px 44px rgba(143, 228, 255, 0.26);
-            }
-        }
-
-        @keyframes buttonPulse {
-            0%, 100% {
-                opacity: 0.32;
-                transform: translateX(-8%) scale(0.78);
-            }
-            50% {
-                opacity: 0.76;
-                transform: translateX(8%) scale(1.28);
-            }
-        }
-
-        @keyframes buttonGlassGlow {
-            0%, 100% {
-                transform: translate3d(-3%, 0, 0) scale(1.02);
-                opacity: 0.42;
-            }
-            50% {
-                transform: translate3d(3%, 0, 0) scale(1.08);
-                opacity: 0.72;
             }
         }
 
@@ -403,36 +397,6 @@
             }
         }
 
-        @keyframes buttonBurst {
-            0% {
-                transform: scale(0.9);
-                opacity: 0.7;
-            }
-            55% {
-                transform: scale(2.1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(4.2);
-                opacity: 0;
-            }
-        }
-
-        @keyframes buttonFlood {
-            0% {
-                transform: scale(0.72);
-                opacity: 0.75;
-            }
-            55% {
-                transform: scale(1.95);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(4.1);
-                opacity: 0;
-            }
-        }
-
         @media (hover: hover) {
             .primary:hover {
                 transform: translateY(-1px) scale(1.018);
@@ -445,24 +409,10 @@
                     0 0 0 1px rgba(255, 255, 255, 0.16),
                     0 16px 46px rgba(119, 219, 255, 0.3);
             }
-
-            .primary:hover::before {
-                opacity: 1;
-            }
-
-            .primary:hover::after {
-                opacity: 0.82;
-                animation-duration: 2.6s;
-            }
         }
 
         .primary:active {
             transform: translateY(1px) scale(0.985);
-        }
-
-        .primary:active::before {
-            opacity: 1;
-            transform: scale(1.18);
         }
 
         #hint {
@@ -699,8 +649,8 @@ const renderShader = `
                      + sin((uv.x - h * 0.5) * 9.0);
         float veil = smoothstep(-0.35, 1.3, ribbon + gradLen * 6.0) * activity;
         vec3 auroraA = hsv2rgb(vec3(fract(hue), 0.78, 1.0));
-        vec3 auroraB = hsv2rgb(vec3(fract(hue + 0.16), 0.72, 1.0));
-        vec3 auroraC = hsv2rgb(vec3(fract(hue + 0.34), 0.66, 1.0));
+        vec3 auroraB = hsv2rgb(vec3(fract(hue + 0.055), 0.68, 1.0));
+        vec3 auroraC = hsv2rgb(vec3(fract(hue - 0.055), 0.62, 1.0));
         vec3 aurora = mix(auroraA, auroraB, 0.5 + 0.5 * sin(h * 16.0 + uv.x * 4.0));
         aurora = mix(aurora, auroraC, smoothstep(0.42, 1.0, veil) * clamp(h * 5.0, 0.0, 1.0));
 
@@ -721,10 +671,10 @@ const renderShader = `
         vec3 light = normalize(vec3(0.4, 0.7, 1.0));
         float fresnel = 0.02 + 0.98 * pow(1.0 - max(normal.z, 0.0), 5.0);
         vec3 reflection = cameraSample(camUv, -offset * 1.4);
-        color = mix(color, reflection * mix(vec3(0.85, 1.0, 0.96), aurora, 0.45), fresnel * clamp(u_intensity * 0.44, 0.0, 0.68));
+        color = mix(color, reflection * mix(vec3(1.0), auroraA, 0.28), fresnel * clamp(u_intensity * 0.44, 0.0, 0.68));
         color += aurora * pow(max(dot(normal, normalize(light + vec3(0.0, 0.0, 1.0))), 0.0), 110.0) * u_intensity * 1.9;
         color += aurora * smoothstep(0.04, 0.12, abs(h)) * smoothstep(0.006, 0.06, abs(lap)) * u_intensity * 0.42;
-        color *= mix(vec3(0.88, 0.96, 1.02), vec3(1.0), clamp(gradLen * 7.0, 0.0, 1.0));
+        color *= mix(vec3(0.96, 0.98, 1.0), vec3(1.0), clamp(gradLen * 7.0, 0.0, 1.0));
 
         gl_FragColor = vec4(color, 1.0);
     }
@@ -787,7 +737,10 @@ const App = {
         this.bindSlider("intensity", "intensity-value", (value) => { this.intensity = value; }, 1);
         this.bindSlider("radius", "radius-value", (value) => { this.radius = value; }, 1);
         this.bindSlider("decay", "decay-value", (value) => { this.decay = value; }, 3);
-        this.bindSlider("color", "color-value", (value) => { this.color = value; }, 0, (value) => `${Math.round(value)}°`);
+        this.bindSlider("color", "color-value", (value) => {
+            this.color = value;
+            document.documentElement.style.setProperty("--hue", `${Math.round(value)}`);
+        }, 0, (value) => `${Math.round(value)}°`);
 
         document.getElementById("randomize").addEventListener("click", (event) => {
             event.stopPropagation();
