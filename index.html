@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>极光镜面</title>
+    <title>有光经过</title>
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap");
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -47,11 +49,30 @@
             position: absolute;
             display: flex;
             gap: 10px;
-            background: rgba(0, 0, 0, 0.46);
-            border: 1px solid rgba(255, 255, 255, 0.13);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.055) 42%, rgba(255, 255, 255, 0.13)),
+                rgba(26, 29, 32, 0.34);
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            backdrop-filter: blur(30px) saturate(1.55);
+            -webkit-backdrop-filter: blur(30px) saturate(1.55);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.36),
+                inset 0 -18px 32px rgba(255, 255, 255, 0.045),
+                0 18px 56px rgba(0, 0, 0, 0.32);
+        }
+
+        .top-controls::before,
+        .quick-controls::before,
+        .sliders::before {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background:
+                radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.32), transparent 30%),
+                linear-gradient(115deg, rgba(255, 255, 255, 0.16), transparent 36%);
+            opacity: 0.75;
+            pointer-events: none;
         }
 
         .top-controls {
@@ -75,7 +96,7 @@
             width: min(86vw, 330px);
             transform: translateX(-50%);
             flex-direction: column;
-            border-radius: 18px;
+            border-radius: 26px;
             padding: 15px 18px;
         }
 
@@ -83,7 +104,9 @@
             appearance: none;
             border: 0;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.1);
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.07)),
+                rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.88);
             min-height: 38px;
             padding: 0 18px;
@@ -91,6 +114,9 @@
             letter-spacing: 1px;
             cursor: pointer;
             transition: transform 160ms ease, background 180ms ease, color 180ms ease;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.32),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.18);
         }
 
         button:active {
@@ -134,6 +160,23 @@
             accent-color: #fff;
         }
 
+        #color {
+            height: 12px;
+            border-radius: 999px;
+            background: linear-gradient(
+                90deg,
+                hsl(0 100% 62%),
+                hsl(45 100% 60%),
+                hsl(90 100% 58%),
+                hsl(150 100% 54%),
+                hsl(210 100% 62%),
+                hsl(270 100% 68%),
+                hsl(330 100% 62%),
+                hsl(360 100% 62%)
+            );
+            accent-color: hsl(205 100% 62%);
+        }
+
         .overlay {
             position: fixed;
             inset: 0;
@@ -146,9 +189,61 @@
             padding: 28px;
             text-align: center;
             background:
-                radial-gradient(circle at 50% 35%, rgba(70, 95, 120, 0.18), transparent 36%),
+                radial-gradient(circle at 50% 35%, rgba(113, 206, 255, 0.16), transparent 34%),
+                radial-gradient(circle at 38% 58%, rgba(194, 104, 255, 0.16), transparent 28%),
                 #030406;
             transition: opacity 260ms ease;
+            isolation: isolate;
+            overflow: hidden;
+        }
+
+        #intro::before,
+        #intro::after {
+            content: "";
+            position: absolute;
+            inset: -28%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        #intro::before {
+            background:
+                radial-gradient(ellipse at 22% 52%, rgba(92, 237, 211, 0.28), transparent 34%),
+                radial-gradient(ellipse at 78% 42%, rgba(180, 103, 255, 0.22), transparent 36%),
+                radial-gradient(ellipse at 52% 72%, rgba(255, 214, 126, 0.15), transparent 28%);
+            filter: blur(28px);
+            opacity: 0.9;
+            animation: introLight 12s ease-in-out infinite alternate;
+        }
+
+        #intro::after {
+            background:
+                linear-gradient(104deg, transparent 26%, rgba(255, 255, 255, 0.18) 42%, transparent 56%),
+                linear-gradient(74deg, transparent 32%, rgba(107, 234, 255, 0.18) 48%, transparent 64%);
+            filter: blur(18px);
+            opacity: 0.42;
+            transform: translateX(-18%) rotate(-6deg);
+            animation: lightVeil 9s ease-in-out infinite;
+        }
+
+        @keyframes introLight {
+            from {
+                transform: translate3d(-3%, 2%, 0) rotate(-4deg) scale(1);
+            }
+            to {
+                transform: translate3d(4%, -3%, 0) rotate(5deg) scale(1.08);
+            }
+        }
+
+        @keyframes lightVeil {
+            0%, 100% {
+                transform: translateX(-20%) rotate(-7deg);
+                opacity: 0.28;
+            }
+            50% {
+                transform: translateX(18%) rotate(5deg);
+                opacity: 0.58;
+            }
         }
 
         .overlay.hidden {
@@ -158,8 +253,11 @@
 
         h1 {
             font-size: clamp(28px, 7vw, 52px);
-            font-weight: 760;
-            letter-spacing: 0;
+            font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-indent: 0.12em;
+            text-shadow: 0 0 28px rgba(164, 229, 255, 0.34), 0 10px 34px rgba(0, 0, 0, 0.58);
         }
 
         p {
@@ -169,12 +267,198 @@
             line-height: 1.55;
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         .primary {
+            position: relative;
+            overflow: hidden;
             height: 46px;
             padding: 0 24px;
-            background: #fff;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.82) 48%, rgba(216, 245, 255, 0.72)),
+                rgba(255, 255, 255, 0.86);
             color: #000;
             font-size: 13px;
+            isolation: isolate;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.92),
+                inset 0 -10px 18px rgba(95, 171, 214, 0.16),
+                0 10px 34px rgba(145, 218, 255, 0.18);
+            animation: buttonFloat 5.2s ease-in-out infinite;
+        }
+
+        .primary::before,
+        .primary::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            transition: opacity 260ms ease, transform 420ms ease;
+        }
+
+        .primary::before {
+            z-index: -1;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(95, 231, 255, 0.52), transparent 22%),
+                radial-gradient(circle at 50% 50%, rgba(184, 113, 255, 0.34), transparent 38%);
+            opacity: 0.45;
+            transform: scale(0.88);
+            filter: blur(3px);
+            animation: buttonPulse 3.8s ease-in-out infinite;
+        }
+
+        .primary::after {
+            border: 1px solid rgba(255, 255, 255, 0.66);
+            background:
+                linear-gradient(110deg, transparent 18%, rgba(255, 255, 255, 0.72) 36%, transparent 48%),
+                radial-gradient(circle at 50% 50%, transparent 30%, rgba(255, 255, 255, 0.42) 31%, transparent 34%);
+            opacity: 0.5;
+            transform: translateX(-52%) scale(1.02);
+            mix-blend-mode: screen;
+            animation: buttonSheen 2.9s ease-in-out infinite;
+        }
+
+        .primary.is-launching {
+            color: rgba(0, 0, 0, 0.72);
+            animation: buttonLaunch 900ms cubic-bezier(0.2, 0.72, 0.18, 1) forwards;
+            pointer-events: none;
+        }
+
+        .primary.is-launching::before {
+            opacity: 1;
+            animation: buttonBurst 900ms cubic-bezier(0.2, 0.72, 0.18, 1) forwards;
+        }
+
+        .primary.is-launching::after {
+            opacity: 0.95;
+            animation: buttonFlood 900ms cubic-bezier(0.2, 0.72, 0.18, 1) forwards;
+        }
+
+        @keyframes buttonFloat {
+            0%, 100% {
+                box-shadow:
+                    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+                    inset 0 -10px 18px rgba(95, 171, 214, 0.16),
+                    0 10px 34px rgba(145, 218, 255, 0.18);
+            }
+            50% {
+                box-shadow:
+                    inset 0 1px 0 rgba(255, 255, 255, 1),
+                    inset 0 -12px 24px rgba(111, 197, 235, 0.25),
+                    0 14px 44px rgba(143, 228, 255, 0.26);
+            }
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% {
+                opacity: 0.32;
+                transform: translateX(-8%) scale(0.78);
+            }
+            50% {
+                opacity: 0.76;
+                transform: translateX(8%) scale(1.28);
+            }
+        }
+
+        @keyframes buttonSheen {
+            0% {
+                transform: translateX(-62%) scale(1.02);
+                opacity: 0.28;
+            }
+            45%, 55% {
+                opacity: 0.78;
+            }
+            100% {
+                transform: translateX(64%) scale(1.06);
+                opacity: 0.32;
+            }
+        }
+
+        @keyframes buttonLaunch {
+            0% {
+                transform: translateY(0) scale(1);
+                filter: brightness(1);
+            }
+            45% {
+                transform: translateY(1px) scale(0.98);
+                filter: brightness(1.04);
+            }
+            100% {
+                transform: translateY(-2px) scale(1.08);
+                filter: brightness(1.16);
+            }
+        }
+
+        @keyframes buttonBurst {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.7;
+            }
+            55% {
+                transform: scale(2.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(4.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes buttonFlood {
+            0% {
+                transform: translateX(-42%) scale(1);
+                opacity: 0.75;
+            }
+            55% {
+                transform: translateX(0%) scale(1.8);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(20%) scale(3.2);
+                opacity: 0;
+            }
+        }
+
+        @media (hover: hover) {
+            .primary:hover {
+                transform: translateY(-1px) scale(1.018);
+                background:
+                    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 1), rgba(224, 250, 255, 0.86) 48%, rgba(189, 225, 255, 0.72)),
+                    rgba(255, 255, 255, 0.9);
+                box-shadow:
+                    inset 0 1px 0 rgba(255, 255, 255, 1),
+                    inset 0 -12px 24px rgba(78, 172, 224, 0.22),
+                    0 0 0 1px rgba(255, 255, 255, 0.16),
+                    0 16px 46px rgba(119, 219, 255, 0.3);
+            }
+
+            .primary:hover::before {
+                opacity: 1;
+            }
+
+            .primary:hover::after {
+                opacity: 0.82;
+            }
+        }
+
+        .primary:active {
+            transform: translateY(1px) scale(0.985);
+        }
+
+        .primary:active::before {
+            opacity: 1;
+            transform: scale(1.18);
         }
 
         #hint {
@@ -231,9 +515,9 @@
 
         <div class="sliders">
             <div class="row">
-                <label for="intensity">光流</label>
-                <input id="intensity" type="range" min="0.2" max="3.0" step="0.1" value="3.0">
-                <output id="intensity-value">3.0</output>
+                <label for="intensity">毛玻璃</label>
+                <input id="intensity" type="range" min="0" max="5.0" step="0.1" value="2.4">
+                <output id="intensity-value">2.4</output>
             </div>
             <div class="row">
                 <label for="radius">笔触</label>
@@ -246,14 +530,9 @@
                 <output id="decay-value">0.974</output>
             </div>
             <div class="row">
-                <label for="chroma">色散</label>
-                <input id="chroma" type="range" min="0" max="2.4" step="0.05" value="1.30">
-                <output id="chroma-value">1.30</output>
-            </div>
-            <div class="row">
-                <label for="swirl">旋涡</label>
-                <input id="swirl" type="range" min="0" max="2.8" step="0.05" value="0.60">
-                <output id="swirl-value">0.60</output>
+                <label for="color">颜色</label>
+                <input id="color" type="range" min="0" max="360" step="1" value="205">
+                <output id="color-value">205°</output>
             </div>
         </div>
 
@@ -266,9 +545,9 @@
     <div id="hint">轻点任意位置显示面板</div>
 
     <div id="intro" class="overlay">
-        <h1>极光镜面</h1>
-        <p>用手指把光写进摄像头画面。它会记住你的动作，拉出色散、旋涡和像玻璃一样弯曲的余晖。</p>
-        <button id="start" class="primary">允许摄像头并开始</button>
+        <h1>有光经过</h1>
+        <p class="sr-only">允许摄像头后，用手指触碰画面生成光的涟漪。</p>
+        <button id="start" class="primary">开始触碰</button>
     </div>
 
     <div id="error" class="overlay hidden">
@@ -297,16 +576,9 @@ const physicsShader = `
     uniform vec2 u_resolution;
     uniform vec3 u_points[10];
     uniform vec3 u_prevPoints[10];
-    uniform float u_time;
     uniform float u_intensity;
     uniform float u_radius;
     uniform float u_decay;
-
-    float hash(vec2 p) {
-        p = fract(p * vec2(123.34, 456.21));
-        p += dot(p, p + 45.32);
-        return fract(p.x * p.y);
-    }
 
     float capsule(vec2 p, vec2 a, vec2 b, float r) {
         vec2 pa = p - a;
@@ -333,7 +605,6 @@ const physicsShader = `
         float wave = average * 2.0 - old;
         float calm = 1.0 - smoothstep(0.0, 0.09, abs(wave)) * 0.008;
         wave *= u_decay * calm;
-        wave += (hash(v_uv + u_time * 0.03) - 0.5) * 0.0011 * u_intensity;
 
         float impulse = 0.0;
         float radius = 0.034 * u_radius;
@@ -362,17 +633,37 @@ const renderShader = `
     uniform sampler2D u_physics;
     uniform vec2 u_resolution;
     uniform vec2 u_videoScale;
-    uniform float u_mode;
     uniform float u_intensity;
     uniform float u_chroma;
-    uniform float u_swirl;
+    uniform float u_hue;
     uniform float u_mirror;
-    uniform float u_time;
 
     vec3 cameraSample(vec2 camUv, vec2 offset) {
         vec2 uv = camUv + offset;
         uv.x = mix(uv.x, 1.0 - uv.x, u_mirror);
         return texture2D(u_camera, uv).rgb;
+    }
+
+    vec3 hsv2rgb(vec3 c) {
+        vec3 p = abs(fract(c.xxx + vec3(0.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0);
+        return c.z * mix(vec3(1.0), clamp(p - 1.0, 0.0, 1.0), c.y);
+    }
+
+    vec3 frostedSample(vec2 camUv, vec2 offset, float blur) {
+        vec2 texel = 1.0 / u_resolution;
+        vec2 a = vec2(texel.x, 0.0) * blur;
+        vec2 b = vec2(0.0, texel.y) * blur;
+        vec2 c = vec2(texel.x, texel.y) * blur * 0.82;
+        vec3 sum = cameraSample(camUv, offset) * 0.22;
+        sum += cameraSample(camUv, offset + a) * 0.105;
+        sum += cameraSample(camUv, offset - a) * 0.105;
+        sum += cameraSample(camUv, offset + b) * 0.105;
+        sum += cameraSample(camUv, offset - b) * 0.105;
+        sum += cameraSample(camUv, offset + c) * 0.09;
+        sum += cameraSample(camUv, offset - c) * 0.09;
+        sum += cameraSample(camUv, offset + vec2(c.x, -c.y)) * 0.09;
+        sum += cameraSample(camUv, offset + vec2(-c.x, c.y)) * 0.09;
+        return sum;
     }
 
     void main() {
@@ -397,76 +688,39 @@ const renderShader = `
         vec2 aspect = vec2(1.0, u_resolution.x / u_resolution.y);
         vec3 color;
 
-        if (u_mode < 0.5) {
-            vec2 dir = grad / max(gradLen, 0.001);
-            float ribbon = sin((uv.y + h * 0.9 * u_swirl) * 15.0 + u_time * 1.4)
-                         + sin((uv.x - h * 0.5 * u_swirl) * 9.0 - u_time * 0.9);
-            float veil = smoothstep(-0.35, 1.3, ribbon + gradLen * 6.0);
-            vec3 auroraA = vec3(0.14, 0.95, 0.82);
-            vec3 auroraB = vec3(0.74, 0.24, 1.0);
-            vec3 auroraC = vec3(1.0, 0.84, 0.34);
-            vec3 aurora = mix(auroraA, auroraB, 0.5 + 0.5 * sin(h * 16.0 + uv.x * 4.0 + u_time));
-            aurora = mix(aurora, auroraC, smoothstep(0.42, 1.0, veil) * clamp(h * 5.0, 0.0, 1.0));
+        vec2 dir = grad / max(gradLen, 0.001);
+        float hue = u_hue / 360.0;
+        float activity = clamp(gradLen * 7.0 + abs(h) * 3.0, 0.0, 1.0);
+        float ribbon = sin((uv.y + h * 0.9) * 15.0)
+                     + sin((uv.x - h * 0.5) * 9.0);
+        float veil = smoothstep(-0.35, 1.3, ribbon + gradLen * 6.0) * activity;
+        vec3 auroraA = hsv2rgb(vec3(fract(hue), 0.78, 1.0));
+        vec3 auroraB = hsv2rgb(vec3(fract(hue + 0.16), 0.72, 1.0));
+        vec3 auroraC = hsv2rgb(vec3(fract(hue + 0.34), 0.66, 1.0));
+        vec3 aurora = mix(auroraA, auroraB, 0.5 + 0.5 * sin(h * 16.0 + uv.x * 4.0));
+        aurora = mix(aurora, auroraC, smoothstep(0.42, 1.0, veil) * clamp(h * 5.0, 0.0, 1.0));
 
-            vec2 flow = vec2(sin(uv.y * 7.0 + u_time), cos(uv.x * 6.0 - u_time * 0.7)) * 0.012 * u_swirl;
-            vec2 offset = (grad * 0.44 + dir * lap * 0.14 + flow * veil) * u_intensity * aspect;
-            float split = (0.01 + clamp(gradLen * 0.24, 0.0, 0.16)) * u_chroma;
-            float blur = gradLen * 1.25;
+        vec2 offset = (grad * 0.44 + dir * lap * 0.14) * u_intensity * aspect;
+        float split = (0.004 + clamp(gradLen * 0.24, 0.0, 0.16)) * u_chroma * (0.32 + activity * 0.68);
+        float frost = 2.8 + u_intensity * 3.45 + activity * 2.4;
+        float blur = max(gradLen * 1.25, frost);
 
-            color.r = (cameraSample(camUv, offset * (1.0 + split)).r
-                + cameraSample(camUv, offset * (1.0 + split) + texel * blur).r
-                + cameraSample(camUv, offset * (1.0 + split) - texel * blur).r) / 3.0;
-            color.g = (cameraSample(camUv, offset).g
-                + cameraSample(camUv, offset + texel * blur).g
-                + cameraSample(camUv, offset - texel * blur).g) / 3.0;
-            color.b = (cameraSample(camUv, offset * (1.0 - split)).b
-                + cameraSample(camUv, offset * (1.0 - split) + texel * blur).b
-                + cameraSample(camUv, offset * (1.0 - split) - texel * blur).b) / 3.0;
+        vec3 glassR = frostedSample(camUv, offset * (1.0 + split), blur);
+        vec3 glassG = frostedSample(camUv, offset, blur);
+        vec3 glassB = frostedSample(camUv, offset * (1.0 - split), blur);
+        color = vec3(glassR.r, glassG.g, glassB.b);
 
-            color *= 1.0 + clamp(h * 2.0, -0.34, 0.44);
-            color = mix(color, aurora, veil * clamp(gradLen * 4.0 + abs(h) * 2.0, 0.0, 0.72));
+        color *= 1.0 + clamp(h * 2.0, -0.34, 0.44);
+        color = mix(color, aurora, veil * clamp(gradLen * 4.0 + abs(h) * 2.0, 0.0, 0.72));
 
-            vec3 normal = normalize(vec3(-grad.x, -grad.y, 0.78 / (u_intensity + 0.02)));
-            vec3 light = normalize(vec3(0.4, 0.7, 1.0));
-            float fresnel = 0.02 + 0.98 * pow(1.0 - max(normal.z, 0.0), 5.0);
-            vec3 reflection = cameraSample(camUv, -offset * 1.4);
-            color = mix(color, reflection * mix(vec3(0.85, 1.0, 0.96), aurora, 0.45), fresnel * clamp(u_intensity * 0.44, 0.0, 0.68));
-            color += aurora * pow(max(dot(normal, normalize(light + vec3(0.0, 0.0, 1.0))), 0.0), 110.0) * u_intensity * 1.9;
-            color += aurora * smoothstep(0.04, 0.12, abs(h)) * smoothstep(0.006, 0.06, abs(lap)) * u_intensity * 0.42;
-            color *= mix(vec3(0.88, 0.96, 1.02), vec3(1.0), clamp(gradLen * 7.0, 0.0, 1.0));
-        } else if (u_mode < 1.5) {
-            float steps = 14.0 + 8.0 * sin(u_time * 0.23);
-            vec2 facet = floor(grad * steps) / steps;
-            vec2 shardUv = camUv + vec2(sin(uv.y * 18.0 + h * 8.0), cos(uv.x * 16.0 - h * 6.0)) * 0.006;
-            vec2 offset = facet * 0.36 * u_intensity * aspect;
-            color.r = cameraSample(shardUv, offset * 1.18).r;
-            color.g = cameraSample(shardUv, offset * 0.92).g;
-            color.b = cameraSample(shardUv, offset * 0.68).b;
-
-            vec2 nearGrad = vec2(
-                texture2D(u_physics, uv + vec2(texel.x, 0.0)).r - texture2D(u_physics, uv - vec2(texel.x, 0.0)).r,
-                texture2D(u_physics, uv + vec2(0.0, texel.y)).r - texture2D(u_physics, uv - vec2(0.0, texel.y)).r
-            );
-            float edge = clamp(length(floor(grad * steps) - floor(nearGrad * steps)), 0.0, 1.0);
-            vec3 edgeColor = mix(vec3(0.2, 1.0, 0.9), vec3(1.0, 0.35, 0.9), 0.5 + 0.5 * sin(uv.x * 8.0 + u_time));
-            color += edgeColor * edge * gradLen * u_intensity * 4.6;
-            float light = 0.52 + 0.48 * dot(normalize(vec3(facet, 0.55)), normalize(vec3(0.32, 0.62, 1.0)));
-            color *= mix(1.0, light, clamp(gradLen * 3.0 * u_intensity, 0.0, 1.0));
-        } else {
-            vec2 center = uv - 0.5;
-            float dist = length(center * aspect);
-            float angle = atan(center.y, center.x);
-            float ring = sin(dist * 42.0 - u_time * 3.2 + h * 10.0);
-            float pulse = smoothstep(0.2, 1.0, ring) * smoothstep(0.0, 0.7, gradLen * 8.0 + abs(h) * 3.0);
-            vec2 swirl = vec2(cos(angle + h * 5.0), sin(angle + h * 5.0)) * pulse * 0.026 * u_intensity;
-            vec2 offset = (grad * 0.34 + swirl) * aspect;
-            vec3 base = cameraSample(camUv, offset);
-            vec3 delayed = cameraSample(camUv, offset * -0.72 + vec2(sin(u_time + dist * 8.0), cos(u_time * 0.7 + angle)) * 0.012);
-            vec3 echoColor = mix(vec3(0.12, 0.7, 1.0), vec3(1.0, 0.18, 0.62), 0.5 + 0.5 * sin(angle * 3.0 + u_time));
-            color = mix(base, delayed, 0.24 + pulse * 0.42);
-            color = mix(color, echoColor, pulse * 0.55);
-            color += echoColor * pow(max(pulse, 0.0), 2.0) * 0.75;
-        }
+        vec3 normal = normalize(vec3(-grad.x, -grad.y, 0.78 / (u_intensity + 0.02)));
+        vec3 light = normalize(vec3(0.4, 0.7, 1.0));
+        float fresnel = 0.02 + 0.98 * pow(1.0 - max(normal.z, 0.0), 5.0);
+        vec3 reflection = cameraSample(camUv, -offset * 1.4);
+        color = mix(color, reflection * mix(vec3(0.85, 1.0, 0.96), aurora, 0.45), fresnel * clamp(u_intensity * 0.44, 0.0, 0.68));
+        color += aurora * pow(max(dot(normal, normalize(light + vec3(0.0, 0.0, 1.0))), 0.0), 110.0) * u_intensity * 1.9;
+        color += aurora * smoothstep(0.04, 0.12, abs(h)) * smoothstep(0.006, 0.06, abs(lap)) * u_intensity * 0.42;
+        color *= mix(vec3(0.88, 0.96, 1.02), vec3(1.0), clamp(gradLen * 7.0, 0.0, 1.0));
 
         gl_FragColor = vec4(color, 1.0);
     }
@@ -487,17 +741,17 @@ const App = {
     pointerDown: false,
     pointerX: 0.5,
     pointerY: 0.5,
-    mode: 0,
-    intensity: 3,
+    intensity: 2.4,
     radius: 1.2,
     decay: 0.974,
     chroma: 1.3,
-    swirl: 0.6,
+    color: 205,
     facingMode: "user",
     stream: null,
     hands: null,
     videoScale: new Float32Array([1, 1]),
     started: false,
+    launching: false,
 
     init() {
         this.gl = this.canvas.getContext("webgl", { antialias: false, depth: false, preserveDrawingBuffer: false });
@@ -529,16 +783,14 @@ const App = {
         this.bindSlider("intensity", "intensity-value", (value) => { this.intensity = value; }, 1);
         this.bindSlider("radius", "radius-value", (value) => { this.radius = value; }, 1);
         this.bindSlider("decay", "decay-value", (value) => { this.decay = value; }, 3);
-        this.bindSlider("chroma", "chroma-value", (value) => { this.chroma = value; }, 2);
-        this.bindSlider("swirl", "swirl-value", (value) => { this.swirl = value; }, 2);
+        this.bindSlider("color", "color-value", (value) => { this.color = value; }, 0, (value) => `${Math.round(value)}°`);
 
         document.getElementById("randomize").addEventListener("click", (event) => {
             event.stopPropagation();
-            this.setSlider("intensity", 0.8 + Math.random() * 1.8);
+            this.setSlider("intensity", 1.4 + Math.random() * 2.6);
             this.setSlider("radius", 0.55 + Math.random() * 1.75);
             this.setSlider("decay", 0.94 + Math.random() * 0.052);
-            this.setSlider("chroma", 0.5 + Math.random() * 1.7);
-            this.setSlider("swirl", Math.random() * 2.4);
+            this.setSlider("color", Math.random() * 360);
         });
         document.getElementById("clear-field").addEventListener("click", (event) => {
             event.stopPropagation();
@@ -579,12 +831,12 @@ const App = {
         });
     },
 
-    bindSlider(id, outputId, update, digits) {
+    bindSlider(id, outputId, update, digits, format = null) {
         const input = document.getElementById(id);
         const output = document.getElementById(outputId);
         const sync = () => {
             const value = Number(input.value);
-            output.textContent = value.toFixed(digits);
+            output.textContent = format ? format(value) : value.toFixed(digits);
             update(value);
         };
         input.addEventListener("input", sync);
@@ -598,7 +850,13 @@ const App = {
     },
 
     async start() {
-        document.getElementById("intro").classList.add("hidden");
+        if (this.launching || this.started) return;
+        this.launching = true;
+        const intro = document.getElementById("intro");
+        const startButton = document.getElementById("start");
+        startButton.classList.add("is-launching");
+        await new Promise((resolve) => window.setTimeout(resolve, 860));
+        intro.classList.add("hidden");
         this.started = true;
         await this.startCamera();
     },
@@ -851,7 +1109,6 @@ const App = {
         gl.uniform2f(gl.getUniformLocation(this.programs.physics, "u_resolution"), next.width, next.height);
         gl.uniform3fv(gl.getUniformLocation(this.programs.physics, "u_points"), this.points);
         gl.uniform3fv(gl.getUniformLocation(this.programs.physics, "u_prevPoints"), this.prevPoints);
-        gl.uniform1f(gl.getUniformLocation(this.programs.physics, "u_time"), time * 0.001);
         gl.uniform1f(gl.getUniformLocation(this.programs.physics, "u_intensity"), this.intensity);
         gl.uniform1f(gl.getUniformLocation(this.programs.physics, "u_radius"), this.radius);
         gl.uniform1f(gl.getUniformLocation(this.programs.physics, "u_decay"), this.decay);
@@ -879,12 +1136,10 @@ const App = {
         gl.uniform1i(gl.getUniformLocation(this.programs.render, "u_physics"), 1);
         gl.uniform2f(gl.getUniformLocation(this.programs.render, "u_resolution"), this.width, this.height);
         gl.uniform2fv(gl.getUniformLocation(this.programs.render, "u_videoScale"), this.videoScale);
-        gl.uniform1f(gl.getUniformLocation(this.programs.render, "u_mode"), this.mode);
         gl.uniform1f(gl.getUniformLocation(this.programs.render, "u_intensity"), this.intensity);
         gl.uniform1f(gl.getUniformLocation(this.programs.render, "u_chroma"), this.chroma);
-        gl.uniform1f(gl.getUniformLocation(this.programs.render, "u_swirl"), this.swirl);
+        gl.uniform1f(gl.getUniformLocation(this.programs.render, "u_hue"), this.color);
         gl.uniform1f(gl.getUniformLocation(this.programs.render, "u_mirror"), this.facingMode === "user" ? 1 : 0);
-        gl.uniform1f(gl.getUniformLocation(this.programs.render, "u_time"), time * 0.001);
         gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
 };
